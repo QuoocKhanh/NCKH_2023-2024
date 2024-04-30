@@ -1,0 +1,19 @@
+﻿@model IEnumerable<NCKH.Models.ItemGroupChat>
+
+@foreach (var group in Model)
+{
+
+		<input type="hidden" name="GroupID" value="@group.ID">
+	<div class="dark-backg white-text d-flex justify-content-between group list-group-item list-group-item-action border-0" data-group-id="@group.ID" style="cursor: pointer;">
+		<div class="white-text d-flex align-items-start">
+			<img src="~/ImgChat/chat.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+			<div class="flex-grow-1 ml-3">
+				@group.Name
+				<div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+			</div>
+		</div>
+			@* <button style="font-weight: bold; border: none; color: #C82333; background-color: transparent" type="submit" class="button-del btn btn-danger"
+				onclick="btnDel(@group.ID)">X</button> *@
+	</div>
+
+}

@@ -1,0 +1,84 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using NCKH.Models;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var advisor_id = HttpContextAccessor.HttpContext.Session.GetString("advisor_id");
+}
+@functions{
+    public MyDbContext db = new MyDbContext();
+
+    public List<ItemAdvisor> AdvisorName (int Advisorid)
+    {
+        List<ItemAdvisor> ad = db.Advisors.Where(item => item.Advisor_ID == Advisorid).ToList();     
+        return ad;
+    }
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div style="display:flex">
+                <div>
+                    <h4 class="card-title">Class Info</h4>
+                </div>
+                <div class="dropdown" style="margin-left:auto">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuIconButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="ti-heart"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton1">
+                        <h6 class="dropdown-header">Settings</h6>
+                        <a class="dropdown-item" href="/Admin/Class/Create">Add New</a>
+                    </div>
+                </div>               
+            </div>
+            <div class="table-responsive">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th> # </th>
+                            <th> Class Name </th>
+                            <th> Number Of Student </th>
+                            <th> Advisor Name </th>
+                            <th> Option </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td> @item.Class_ID </td>
+                                <td> @item.ClassName </td>
+                                <td> @item.NumberStudent </td>
+                                @{
+                                    List<ItemAdvisor> name = AdvisorName(item.Advisor_ID);
+                                }                                
+                                @foreach(ItemAdvisor ad in name )
+                                {
+                                    <td> @ad.AdvisorName</td>
+                                }                             
+                                <td>
+                                    <a class="btn btn-success btn-fw" href="/Admin/Class/Detail/@item.Class_ID">Detail</a>
+                                    <a class="btn btn-warning btn-fw" href="/Admin/Class/Update/@item.Class_ID">Edit</a>
+                                    <a class="btn btn-danger btn-fw" href="/Admin/Class/Delete/@item.Class_ID" onclick="return window.confirm('Are you sure?');">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="btn-group" style="padding-top: 15px;" role="group" aria-label="Basic example">
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <button type="button" class="btn btn-outline-dark btn-fw" onclick="location.href='@Url.Action("Index", new { page = i })'">@i</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

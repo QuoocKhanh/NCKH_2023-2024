@@ -1,0 +1,170 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var advisor_id = HttpContextAccessor.HttpContext.Session.GetString("advisor_id");
+}
+@using NCKH.Models
+@functions{
+    public MyDbContext db = new MyDbContext();
+    public List<ItemStudentScore> getList (int id)
+    {
+        List<ItemStudentScore> list = db.StudentScores.Where(n => n.Student_ID == id).ToList();
+        return list;
+    }
+    public List<ItemCourse> GetCourses(int id)
+    {
+        List<ItemCourse> list = db.Courses.Where(n => n.Course_ID == id).ToList();
+        return list;
+    }
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div style="display:flex">
+                <div>
+                    <h4 class="card-title">Management Student Score </h4>
+                </div>                           
+            </div>
+            <div class="table-responsive">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th> # </th>
+                            <th> Year </th>
+                            <th> Semester </th>
+                            <th> Score </th>
+                            <th> Score4 </th>
+                            <th> Option </th>
+                        </tr>
+                    </thead>
+                    <tbody>                                          
+                        @if (Model != null)
+                        {                           
+                            List<ItemStudentScore> list_ = getList(Model.Student_ID);
+
+                            @foreach (var item in list_)
+                            {
+                                <tr>
+                                    <td> @item.ID </td>
+                                    <td> @item.Year </td>
+                                    <td> @item.Semester </td>
+                                    <td> @item.Score </td>
+                                    <td> @item.Score4 </td>
+                                    <td>
+                                        <a class="btn btn-warning waves-effect" href="/Admin/Score/Update/@item.ID">Edit</a>
+                                        <a class="btn btn-danger waves-effect" href="/Admin/Score/Delete/@item.ID" onclick="return window.confirm('Are you sure?');">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div style="display:flex">
+                <div>
+                    <h4 class="card-title">Management Course Score </h4>
+                </div>
+                <form method="post" action="@Url.Action("FilterResults", "ScoreController")">
+                    <label for="SemesterSelect">Select a Option:</label>
+                    <select name="SemesterSelect">
+                        @foreach (var item in ViewBag.Semesters)
+                        {
+                            if (item.StartsWith("Semester_"))
+                            {
+                                <option value="@item">@item.Replace("Semester_", "")</option>
+                            }
+                        }
+                    </select>
+                    <select name="YearSelect">
+                        @foreach (var item in ViewBag.Years)
+                        {
+                            if (item.StartsWith("Year_"))
+                            {
+                                <option value="@item">@item.Replace("Year_", "")</option>
+                            }
+                        }
+                    </select>
+                    <button type="submit">Filter</button>
+                </form>
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th> # </th>
+                            <th> Course Name </th>
+                            <th> Course Code </th>
+                            <th> Credits </th>
+                            <th> Lan Hoc </th>
+                            <th> Score </th>
+                            <th> Text Score </th>
+                            <th> Option </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {                         
+                            @foreach (var item in Model)
+                            {
+                                List<ItemCourse> list_ = GetCourses(item.Course_ID);
+                                    <tr>
+                                        <td> @item.ID </td>
+                                        @foreach (var l in list_)
+                                        {
+                                            <td> @l.CourseName </td>
+                                            <td> @l.CourseCode </td>
+                                            <td> @l.Credit </td>
+                                        }
+                                        <td> @item.LanHocThu </td>
+                                        <td> @item.Score </td>
+                                        <td> @item.TextScore </td>
+                                        <td>
+                                            <a class="btn btn-warning waves-effect" href="/Admin/Score/Update/@item.ID">Edit</a>
+                                            <a class="btn btn-danger waves-effect" href="/Admin/Score/Delete/@item.ID" onclick="return window.confirm('Are you sure?');">Delete</a>
+                                        </td>
+                                    </tr>
+                                    
+                                }                              
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>

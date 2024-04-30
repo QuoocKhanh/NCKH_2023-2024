@@ -1,0 +1,38 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Update Frofile</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data" action="@ViewBag.action">
+                <div class="form-group">
+                    <label for="exampleInputName1">Advisor Name</label>
+                    <input type="text" name="name" class="form-control" id="exampleInputName1" placeholder="Name" value="@if(Model != null){
+                    <text>@Model.AdvisorName</text>
+                    }">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Academic Rank</label>
+                    <input type="text" name="AR" class="form-control" id="exampleInputEmail3" placeholder="Academic Rank" value="@if(Model != null){
+                    <text>@Model.AR</text>
+                    }">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Degree</label>
+                    <input type="text" name="degree" class="form-control" id="exampleInputPassword4" placeholder="Degree" value="@if(Model != null){
+                    <text>@Model.Degree</text>
+                    }">
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2" value="Upload">Submit</button>
+                
+            </form>
+           
+        </div>
+    </div>
+</div>
+

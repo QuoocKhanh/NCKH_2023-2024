@@ -1,0 +1,45 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Update Frofile</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data" action="@ViewBag.action">
+                <div class="form-group">
+                    <label for="exampleInputName1">Student Name</label>
+                    <input type="text" name="name" class="form-control" id="exampleInputName1" placeholder="Name" value="@if(Model != null){
+                    <text>@Model.StudentName</text>
+                    }">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Address</label>
+                    <input type="text" name="address" class="form-control" id="exampleInputEmail3" placeholder="Address" value="@if(Model != null){
+                    <text>@Model.Address</text>
+                    }">
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select name="role" class="form-control" id="role">
+                        <option value="loptruong">Lớp trưởng</option>
+                        <option value="lopho">Lớp phó</option>
+                        <option value="bithu">Bí thư</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Note</label>
+                    <input type="text" name="note" class="form-control" id="exampleInputPassword4" placeholder="Note" value="@if(Model != null){
+                    <text>@Model.Note</text>
+                    }">
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2" value="Upload">Submit</button>               
+            </form>
+        </div>
+    </div>
+</div>
+

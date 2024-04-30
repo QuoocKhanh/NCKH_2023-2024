@@ -1,0 +1,76 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using NCKH.Models;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var advisor_id = HttpContextAccessor.HttpContext.Session.GetString("advisor_id");
+}
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+    public List<ItemAdvisor> AdvisorName(int Advisorid)
+    {
+        List<ItemAdvisor> ad = db.Advisors.Where(item => item.Advisor_ID == Advisorid).ToList();
+        return ad;
+    }
+}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div style="display:flex">
+                <div>
+                    <h4 class="card-title">Choose Class</h4>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th> # </th>
+                            <th> Class Name </th>
+                            <th> Number Of Student </th>
+                            <th> Advisor Name </th>
+                            <th> Option </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @{
+                                    var counter_1 = 1;
+                                }
+                                <td> @counter_1</td>
+                                <td> @item.ClassName </td>
+                                <td> @item.NumberStudent </td>
+                                @{
+                                    List<ItemAdvisor> name = AdvisorName(item.Advisor_ID);
+                                }
+                                @foreach (ItemAdvisor ad in name)
+                                {
+                                    <td> @ad.AdvisorName</td>
+                                }
+                                <td>
+                                    <a class="btn btn-success btn-fw" href="/Admin/Status/Detail/@item.Class_ID">Detail</a>
+                                    <a class="btn btn-primary btn-fw" href="/Admin/Status/ShowAll/@item.Class_ID">Show student have status</a>
+                                </td>
+                            </tr>
+                            counter_1++;
+                        }
+                    </tbody>
+                </table>
+                <div class="btn-group" style="padding-top: 15px;" role="group" aria-label="Basic example">
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <button type="button" class="btn btn-outline-dark btn-fw" onclick="location.href='@Url.Action("ChooseClass", new { page = i })'">@i</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

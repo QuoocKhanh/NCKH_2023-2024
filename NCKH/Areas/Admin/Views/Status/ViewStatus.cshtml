@@ -1,0 +1,81 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var advisor_id = HttpContextAccessor.HttpContext.Session.GetString("advisor_id");
+}
+@using NCKH.Models
+
+@functions {
+    public MyDbContext db = new MyDbContext();
+    public List<ItemBonus> getBonus(int id)
+    {
+        return db.Bonus.Where(i => i.Bonus_ID == id).ToList();
+    }
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Status info Table</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Content</th>
+                            <th>Type</th>
+                            <th>Lan Thu</th>
+                            <th>Year</th>
+                            <th>Semester</th>
+                            <th>Note</th>
+                            <th>Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{                          
+                            var counter = 1;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            List<ItemBonus> itemBonus = getBonus(item.Bonus_ID);
+                            <tr>
+                                <td>@counter</td>
+                                @foreach (var ite in itemBonus)
+                                {
+                                    <td>@ite.Name</td>
+                                    <td>@ite.Content</td>
+                                    <td>
+                                        @if (ite.Type == 1)
+                                        {
+                                            <label class="badge badge-success">Bonus</label>
+                                        }
+                                        @if (ite.Type == 0)
+                                        {
+                                            <label class="badge badge-danger">Punish</label>
+                                        }
+                                    </td>
+                                }
+                                <td>@item.LanThu</td>
+                                <td>@item.Year</td>
+                                <td>@item.Semester</td>
+                                <td>@item.Note</td>
+                                <td>
+                                    <a class="btn btn-warning waves-effect" href="/Admin/Status/Update/@item.Bonus_ID">Edit</a>
+                                    <a class="btn btn-danger waves-effect" href="/Admin/Status/Delete/@item.Bonus_ID" onclick="return window.confirm('Are you sure?');">Delete</a>
+                                </td>
+
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

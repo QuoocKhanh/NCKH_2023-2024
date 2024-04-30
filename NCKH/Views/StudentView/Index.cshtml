@@ -1,0 +1,246 @@
+﻿@{
+
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var stu_id = HttpContextAccessor.HttpContext.Session.GetString("stu_id");
+    
+}
+@using NCKH.Models
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+    public List<ItemCourse> GetCourses(int id)
+    {
+        List<ItemCourse> list = db.Courses.Where(n => n.Course_ID == id).ToList();
+        return list;
+    }
+    public List<ItemStudentScore> getList(int _id)
+    {
+        return db.StudentScores.Where(n => n.Student_ID == _id).ToList();
+    }
+    public List<ItemStudent> GetName(int id)
+    {
+        List<ItemStudent> stu = db.Students.Where(n => n.Student_ID == id).ToList();
+        return stu;
+    }
+}
+<style>
+    .form-container {
+        width: 600px;
+    }
+
+    .form-body {
+        display: flex;
+    }
+
+    .form-group {
+        float: left;
+    }
+
+    .form-body {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .form-body {
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        padding-right: 10px
+    }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+    .form-footer {
+        margin-top: 30px;
+    }
+
+        .form-footer button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 4.5px 10px;
+            cursor: pointer;
+        }
+
+            .form-footer button:hover {
+                background-color: #3e8e41;
+            }
+</style>
+
+
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title">Management Student Score </h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-light">
+                                <thead>
+                                    <tr>
+                                        <th> # </th>
+                                        <th> Year </th>
+                                        <th> Semester </th>
+                                        <th> Score </th>
+                                        <th> Score4 </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var counter_1 = 1;
+                                    }
+                                    @if (Model != null)
+                                    {
+                                        List<ItemStudentScore> list_ = getList(ViewBag.Student_ID);
+                                        foreach (var item in list_)
+                                        {
+
+                                            <tr>
+                                                <td>@counter_1</td>
+                                                <td>@item.Year</td>
+                                                <td>@item.Semester</td>
+                                                <td>@item.Score</td>
+                                                <td>@item.Score4</td>
+                                            </tr>
+                                            counter_1++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>No data found </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div><br /></div>
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title">Management Course Score </h4>
+                        </div>
+                        <div class="form-container">
+                            <form method="post" action="@Url.Action("FilterResults", "StudentView")">
+                                <input type="hidden" name="_id" value="@ViewBag.Student_ID" />
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="semester">Semester:</label>
+                                        <select name="SemesterSelect">
+                                            @if (string.IsNullOrEmpty(ViewBag.SelectedSemester))
+                                            {
+                                                <option value="" selected>Chọn học kỳ</option>
+                                            }
+
+                                            @foreach (var item in ViewBag.Semesters)
+                                            {
+                                                <option value="@item" @(item == ViewBag.SelectedSemester ? "selected" : "")>@item</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="year">Year:</label>
+                                        <select name="YearSelect">
+                                            @if (string.IsNullOrEmpty(ViewBag.SelectedYear))
+                                            {
+                                                <option value="" selected>Chọn năm</option>
+                                            }
+
+                                            @foreach (var item in ViewBag.Years)
+                                            {
+                                                <option value="@item" @(item == ViewBag.SelectedYear ? "selected" : "")>@item</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-footer">
+                                        <button type="submit">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        @if (Model != null)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-light">
+                                    <thead>
+                                        <tr>
+                                            <th> # </th>
+                                            <th> Course Name </th>
+                                            <th> Course Code </th>
+                                            <th> Credits </th>
+                                            <th> Lan Hoc </th>
+                                            <th> Score </th>
+                                            <th> Text Score </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var counter_ = 1;
+                                        }
+                                        @foreach (var item in Model)
+                                        {
+                                            var allCourses = GetCourses(item.Course_ID);
+                                            <tr>
+                                                <td>@counter_</td>
+                                                @foreach (var course in allCourses)
+                                                {
+                                                    if (course.Course_ID == item.Course_ID)
+                                                    {
+                                                        <td>@course.CourseName</td>
+                                                        <td>@course.CourseCode</td>
+                                                        <td>@course.Credit</td>
+                                                    }
+                                                }
+
+                                                <td>@item.LanHocThu</td>
+                                                <td>@item.Score</td>
+                                                <td>@item.TextScore</td>
+                                            </tr>
+                                            counter_++;
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- partial -->
+</div>
+
+       
+
+
+

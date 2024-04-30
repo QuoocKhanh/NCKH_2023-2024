@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+@using NCKH.Models;
+@functions {
+    public MyDbContext db = new MyDbContext();
+    
+}
+
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Import File Excel</h4>  
+            <form method="post" enctype="multipart/form-data" action="/Admin/Student/ExportExcel">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger btn-icon-text" href="~/Admin/Student/ExportExcel">
+                        <i class="mdi mdi-download btn-icon-prepend"></i> Download Template Input Student
+                    </button>                   
+                </div>
+            </form>
+            <form method="post" enctype="multipart/form-data"  action="@ViewBag.action">                            
+                <div class="form-group">
+                    <h3>Upload</h3>
+                    <input class="form-control" style="height:max-content" name="formfile" multiple="multiple" type="file" />
+                </div>
+                <input type="hidden" name="id_class" value="@Model" />
+                <br />
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input class="btn btn-primary" type="submit" value="Upload" />
+                    </div>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using NCKH.Models;
+@functions {
+    public MyDbContext db = new MyDbContext();
+    public List<ItemBonus> List()
+    {
+        List<ItemBonus> list_class = db.Bonus.Where(item => item.Type == 1).ToList();
+        return list_class;
+    }
+    public List<ItemStudentStatus> lststu(int id)
+    {
+        return db.StudentStatuses.Where(n => n.Student_ID == id).ToList();
+    }
+    public List<ItemBonus> getBonusByStudent(int studentId)
+    {
+        var bonuses = (from ss in db.StudentStatuses
+                       join b in db.Bonus on ss.Bonus_ID equals b.Bonus_ID
+                       where ss.Student_ID == studentId && b.Type == 1
+                       select new ItemBonus
+                           {
+                               Name = b.Name,
+                               Content = b.Content
+                           }).ToList();
+
+        return bonuses;
+    }
+}
+
+
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create New status</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data" action="@ViewBag.action">
+                <input type="hidden" name="stu_id" value="@ViewBag.Stu_id" />  
+                <div class="form-group">
+                <label for="exampleInputEmail3">Semester</label>
+                <input type="text" name="semester" class="form-control" id="exampleInputEmail3" placeholder="Semester" />
+                </div>
+                <div class="form-group">
+                <label for="exampleInputEmail3">Year</label>
+                <input type="text" name="year" class="form-control" id="exampleInputEmail3" placeholder="Year" />
+                </div> 
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Class select</label>
+                    <div class="col-sm-10" style="height:200px; overflow:scroll;">
+                        <table class="table">
+                            @{
+                                List<ItemBonus> classs = List();
+                            }
+                            @foreach (var item in classs)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" @if (Model != null )
+                                        {
+                                            <text>checked</text>
+                                        } value="@item.Name" name="category_@item.Bonus_ID" id="category_@item.Bonus_ID" />&nbsp;&nbsp; <label for="category_@item.Bonus_ID">@item.Name</label>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                <label for="exampleInputEmail3">Note</label>
+                <input type="text" name="note" class="form-control" id="exampleInputEmail3" placeholder="Note">
+                </div>
+                <button type="submit" class="btn btn-primary mr-2" value="Upload">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Status info Table</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Content</th>
+                            <th>Type</th>
+                            <th>Lan Thu</th>
+                            <th>Year</th>
+                            <th>Semester</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var counter = 1;
+                            int stu_id = ViewBag.Stu_id;
+                            List<ItemStudentStatus> lst = lststu(stu_id);
+                            List<ItemBonus> itemBonus = getBonusByStudent(stu_id);
+                        }
+                        @foreach (var item in lst)
+                        {
+                            <tr>
+                                <td>@counter</td>
+                                @if (itemBonus != null)
+                                {
+                                    @foreach (var ite in itemBonus)
+                                    {
+                                        <td>@ite.Name</td>
+                                        <td>@ite.Content</td>
+                                        <td>
+                                            <label class="badge badge-success">Bonus</label>
+                                        </td>
+                                        <td>@item.LanThu</td>
+                                        <td>@item.Year</td>
+                                        <td>@item.Semester</td>
+                                    }
+                                }
+                                                                                                 
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

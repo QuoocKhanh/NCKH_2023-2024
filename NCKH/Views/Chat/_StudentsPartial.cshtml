@@ -1,0 +1,16 @@
+﻿@model IEnumerable<NCKH.Models.ItemStudent>
+
+@{
+    // Make sure to add @using Microsoft.AspNetCore.Http at the top if it's not globally imported
+    var userId = Context.Session.GetString("user_id");
+}
+
+@foreach (var user in Model)
+{
+    <div class="col-4">
+        <div class="form-check">
+            <input @(int.Parse(@userId) == user.User_ID ? "checked='checked'" : "") type="checkbox" class="form-check-input" id="user_@user.User_ID" value="@user.User_ID" name="checkedUsers">
+            <label class="form-check-label" for="user_@user.User_ID">@user.StudentName - @user.StudentCode</label>
+        </div>
+    </div>
+}

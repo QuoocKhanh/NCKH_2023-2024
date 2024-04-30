@@ -1,0 +1,144 @@
+﻿@model IEnumerable<GroupChat.Controllers.MessageViewModel>
+@using Microsoft.AspNetCore.Http
+
+@{
+	string id = Context.Session.GetString("user_id");
+}
+
+@foreach (var message in Model)
+{
+
+	@if(message.User_ID == null)
+	{
+		<div class="d-flex align-items-center mb-4" style="margin: 0 auto;">
+			<div class="flex-shrink-1 rounded py-2 px-3 mr-3" style="font-weight: bold;">
+				@Html.Encode(message.Content)
+			</div>
+			<div>
+				<div class="text-muted small text-nowrap">@Html.Encode(message.Time)</div>
+			</div>
+		</div>
+	} else
+	{
+			@if (message.User_ID == int.Parse(id))
+			{
+				@if (message.Type == "text")
+				{
+					<div class="dark3-backg chat-message-right mb-4">
+						<div style="text-align: right;">
+							<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+							<div class="text-muted small text-nowrap mt-2">@Html.Encode(message.Time)</div>
+						</div>
+					<div class="flex-shrink-1 dark3-backg rounded py-2 px-3 mr-3">
+							<div class="font-weight-bold mb-1">You</div>
+							@Html.Encode(message.Content)
+						</div>
+					</div>
+				}
+				else if (message.Type == "image")
+				{
+				<div class="dark3-backg chat-message-right mb-4">
+					<div style="text-align: right;">
+						<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+						<div class="text-muted small text-nowrap mt-2">@Html.Encode(message.Time)</div>
+					</div>
+					<div class="flex-shrink-1 dark3-backg rounded py-2 px-3 mr-3">
+						<div class="font-weight-bold mb-1">You</div>
+						<div style="position: relative;">
+							<img src="@Url.Content("~" + message.Content)" style="max-width: 350px; max-height: 300px; min-width: 80px; min-height: 80px;">
+							<a href="@Url.Content("~" + message.Content)" download="@message.Content.Split('_').Last()"
+								class="d-flex img-content align-items-center justify-content-center" style="position: absolute; top: 0; right: 0; opacity: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer;">
+								<img src="~/ImgChat/download-icon.jpg" style="width: 40px; height: 40px; background-color: transparent; border-radius: 50%;">
+							</a>
+						</div>
+					</div>
+				</div>
+			} else if (message.Type == "file")
+			{
+				<div class="dark3-backg chat-message-right mb-4">
+					<div style="text-align: right;">
+						<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+						<div class="text-muted small text-nowrap mt-2">@Html.Encode(message.Time)</div>
+					</div>
+					<div class="flex-shrink-1 dark3-backg rounded py-2 px-3 mr-3">
+						<div class="font-weight-bold mb-1">You</div>
+						<a class="normal-text" href="@Url.Content("~" + message.Content)"
+						class="d-flex align-items-center" 
+						style="display: flex; margin-top: 10px; margin-bottom: 5px; cursor: pointer;">
+							<img src="~/ImgChat/file.png" style="height: 55px; margin-right: 8px;" />
+							<div class="white-text">
+								<div>@Html.Encode(message.Content.Split('_').Last())</div>
+								<div class="d-flex justify-content-end align-items-center" style="font-weight: bold;">
+									Download
+									<img src="~/ImgChat/download-icon.jpg" style="margin-left: 5px; width: 20px; height: 20px; background-color: transparent;">
+								</div>
+							</div>
+
+						<a/>
+					</div>
+				</div>
+			}
+		}
+			else
+			{
+				@if (message.Type == "text")
+				{
+					<div class="chat-message-left pb-4 mb-4">
+						<div>
+							<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+							<div class="text-muted small text-nowrap mt-2">@Html.Encode(message.Time)</div>
+						</div>
+						<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+							<div class="font-weight-bold mb-1">@Html.Encode(message.UserName)</div>
+							@Html.Encode(message.Content)
+						</div>
+					</div>
+				}
+				else if (message.Type == "image")
+				{
+					<div class="chat-message-left pb-4 mb-4">
+						<div>
+							<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+							<div class="text-muted small text-nowrap mt-2">@Html.Encode(message.Time)</div>
+						</div>
+						<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+							<div class="font-weight-bold mb-1">@Html.Encode(message.UserName)</div>
+						<div style="position: relative;">
+							<img src="@Url.Content("~" + message.Content)" style="max-width: 350px; max-height: 300px; min-width: 80px; min-height: 80px;">
+							<a href="@Url.Content("~" + message.Content)" download="@message.Content.Split('_').Last()"
+							   class="d-flex img-content align-items-center justify-content-center" style="position: absolute; top: 0; right: 0; opacity: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer;">
+								<img src="~/ImgChat/download-icon.jpg" style="width: 40px; height: 40px; background-color: transparent; border-radius: 50%;">
+							</a>
+						</div>
+						</div>
+				</div>
+			} 
+
+			else if (message.Type == "file")
+			{
+				<div class="chat-message-left pb-4 mb-4">
+					<div>
+						<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+						<div class="text-muted small text-nowrap mt-2">@Html.Encode(message.Time)</div>
+					</div>
+					<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+						<div class="font-weight-bold mb-1">@Html.Encode(message.UserName)</div>
+						<a class="normal-text" href="@Url.Content("~" + message.Content)"
+						   class="d-flex align-items-center"
+						   style="display: flex; margin-top: 10px; margin-bottom: 5px; cursor: pointer;">
+							<img src="~/ImgChat/file.png" style="height: 55px; margin-right: 8px;" />
+							<div class="white-text">
+								<div>@Html.Encode(message.Content.Split('_').Last())</div>
+								<div class="d-flex justify-content-end align-items-center" style="font-weight: bold;">
+									Download
+									<img src="~/ImgChat/download-icon.jpg" style="margin-left: 5px; width: 20px; height: 20px; background-color: transparent;">
+								</div>
+							</div>
+
+							<a />
+					</div>
+				</div>
+			}
+		}
+}
+}

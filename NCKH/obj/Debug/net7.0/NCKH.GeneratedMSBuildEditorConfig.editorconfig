@@ -1,0 +1,183 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = NCKH
+build_property.RootNamespace = NCKH
+build_property.ProjectDir = D:\Năm_4\NCKH\NCKH(2023-2024)\NCKH\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\Năm_4\NCKH\NCKH(2023-2024)\NCKH
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Advisor/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWR2aXNvclxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Advisor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWR2aXNvclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Advisor/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWR2aXNvclxVcGRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Class/CreateUpdate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2xhc3NcQ3JlYXRlVXBkYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Class/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2xhc3NcRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Class/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2xhc3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Score/Choose.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2NvcmVcQ2hvb3NlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Score/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2NvcmVcRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Score/ImportExcel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2NvcmVcSW1wb3J0RXhjZWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Score/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2NvcmVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Shared/Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXExheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Shared/LayoutLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXExheW91dExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/AddBonus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXEFkZEJvbnVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/AddPunish.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXEFkZFB1bmlzaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/ChooseClass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXENob29zZUNsYXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/CreateUpdate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXENyZWF0ZVVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/ShowAll.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXFNob3dBbGwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Status/ViewStatus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdHVzXFZpZXdTdGF0dXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Student/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3R1ZGVudFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Student/CreateExcel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3R1ZGVudFxDcmVhdGVFeGNlbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Student/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3R1ZGVudFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Student/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3R1ZGVudFxVcGRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/Student/ViewScore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3R1ZGVudFxWaWV3U2NvcmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/User/CreateUpdate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclxDcmVhdGVVcGRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Areas/Admin/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Account/Info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbmZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Chat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Chat/NewIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxOZXdJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Chat/_GroupChat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxfR3JvdXBDaGF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Chat/_Messages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxfTWVzc2FnZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Chat/_StudentsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxfU3R1ZGVudHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Chat/_UsersInGroup.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxfVXNlcnNJbkdyb3VwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/Shared/Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/StatusStu/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdHVzU3R1XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Năm_4/NCKH/NCKH(2023-2024)/NCKH/Views/StudentView/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFZpZXdcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

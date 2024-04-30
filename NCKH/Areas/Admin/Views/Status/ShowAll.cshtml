@@ -1,0 +1,202 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var advisor_id = HttpContextAccessor.HttpContext.Session.GetString("advisor_id");
+}
+@using NCKH.Models
+
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+
+    public List<ItemBonus> getBonus(int id)
+    {
+        return db.Bonus.Where(i => i.Bonus_ID == id).ToList();
+    }
+    public List<ItemStudent> getName(int id)
+    {
+        return db.Students.Where(i => i.Student_ID == id).ToList();
+    }
+    public List<ItemStudent> getStatusByclass(int id)
+    {
+        return db.Students.Where(i => i.Class_ID == id).ToList();
+    }
+}
+<style>
+    .form-container {
+        width: 600px;
+    }
+
+    .form-body {
+        display: flex;
+    }
+
+    .form-group {
+        float: left;
+    }
+
+    .form-body {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .form-body {
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        padding-right: 10px
+    }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+    .form-footer {
+        margin-top: 30px;
+    }
+
+        .form-footer button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 4.5px 10px;
+            cursor: pointer;
+        }
+
+            .form-footer button:hover {
+                background-color: #3e8e41;
+            }
+</style>
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <h4 class="card-title">All Status </h4>
+            </div>
+            <div class="form-container">
+                <form method="post" action="@Url.Action("FilterResults", "Status")"> 
+                    @if (ViewBag.ClassID != null)
+                    {
+                        <input type="hidden" name="_idclass" value="@ViewBag.ClassID" />
+                    }                   
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="semester">Semester:</label>
+                            <select name="SemesterSelect">
+                                @if (string.IsNullOrEmpty(ViewBag.SelectedSemester))
+                                {
+                                    <option value="" selected>Chọn học kỳ</option>
+                                }
+
+                                @foreach (var item in ViewBag.Semesters)
+                                {
+                                    <option value="@item" @(item == ViewBag.SelectedSemester ? "selected" : "")>@item</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year:</label>
+                            <select name="YearSelect">
+                                @if (string.IsNullOrEmpty(ViewBag.SelectedYear))
+                                {
+                                    <option value="" selected>Chọn năm</option>
+                                }
+
+                                @foreach (var item in ViewBag.Years)
+                                {
+                                    <option value="@item" @(item == ViewBag.SelectedYear ? "selected" : "")>@item</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit">Filter</button>
+                        </div>
+                    </div>
+                </form>              
+            </div>
+            
+                @if (Model != null)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student Name</th>
+                                    <th>Student Code</th>
+                                    <th>Status Name</th>
+                                    <th>Status type</th>
+                                    <th>Lan Thu</th>
+                                    <th>Year</th>
+                                    <th>Semester</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var counter = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    List<ItemStudent> stu = getName(item.Student_ID);
+                                    List<ItemBonus> itemBonus = getBonus(item.Bonus_ID);                                    
+                                    @foreach (var st in stu)
+                                    {
+                                        
+                                        <tr>
+                                            <td>@counter</td>
+
+                                            <td>@st.StudentName</td>
+                                            <td>@st.StudentCode</td>
+                                            @foreach (var ite in itemBonus)
+                                            {
+                                                <td>@ite.Name</td>
+                                                <td>
+                                                    @if (ite.Type == 1)
+                                                    {
+                                                        <label class="badge badge-success">Bonus</label>
+                                                    }
+                                                    @if (ite.Type == 0)
+                                                    {
+                                                        <label class="badge badge-danger">Punish</label>
+                                                    }
+                                                </td>
+                                            }
+                                            <td>@item.LanThu</td>
+                                            <td>@item.Year</td>
+                                            <td>@item.Semester</td>
+                                            <td>@item.Note</td>
+                                        </tr>
+                                        counter++;
+                                        
+                                    }                                        
+                                   
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            
+            
+        </div>
+    </div>
+</div>

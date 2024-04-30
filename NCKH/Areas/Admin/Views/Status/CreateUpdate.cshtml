@@ -1,0 +1,57 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using NCKH.Models;
+@functions {
+    public MyDbContext db = new MyDbContext();
+}
+
+
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create New status</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data" action="@ViewBag.action">
+                @* <input type="hidden" name="stu_id" value="@ViewBag.Stu_id" /> *@
+                @if (ViewBag.stu_id != null)
+                {
+                    <p name="stu_id">Student ID: @ViewBag.stu_id</p>
+                }
+                
+
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Semester</label>
+                    <input type="text" name="semester" class="form-control" id="exampleInputEmail3" placeholder="Semester" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Year</label>
+                    <input type="text" name="year" class="form-control" id="exampleInputEmail3" placeholder="Year" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputName1">Name</label>
+                    <input type="text" name="name" class="form-control" id="exampleInputName1" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Content</label>
+                    <input type="text" name="content" class="form-control" id="exampleInputEmail3" placeholder="Content">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Bonus</label>
+                    <input type="checkbox" name="Type" id="Type" @if (Model != null && Model.Type == 1)
+                    {
+                        <text>checked</text>
+                    }> <label for="Type">Bonus</label>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Note</label>
+                    <input type="text" name="note" class="form-control" id="exampleInputEmail3" placeholder="Note">
+                </div>              
+                <button type="submit" class="btn btn-primary mr-2" value="Upload">Submit</button>              
+            </form>
+        </div>
+    </div>
+</div>
+
+

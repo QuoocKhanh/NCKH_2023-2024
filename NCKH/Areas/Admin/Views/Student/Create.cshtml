@@ -1,0 +1,66 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+@using NCKH.Models;
+
+@functions {
+    public MyDbContext db = new MyDbContext();
+    
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create New</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data" action="@ViewBag.action">
+                
+                <input type="hidden" name="id_class" value="@Model" />
+                <div class="form-group">
+                    <label for="exampleInputName1">Student Name</label>
+                    <input type="text" name="name" class="form-control" id="exampleInputName1" placeholder="Name" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">Address</label>
+                    <input type="text" name="address" class="form-control" id="exampleInputEmail3" placeholder="Address" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Student Code</label>
+                    <input type="number" name="studentcode" class="form-control" id="exampleInputPassword4" placeholder="StudentCode" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Gender</label>
+                    <input type="text" name="gender" class="form-control" id="exampleInputPassword4" placeholder="Gender" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Dob</label>
+                    <input type="date" name="Dob" class="form-control" id="exampleInputPassword4" placeholder="Date of birth" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Email</label>
+                    <input type="email" name="email" class="form-control" id="exampleInputPassword4" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Phone Number</label>
+                    <input type="number" name="pnumber" class="form-control" id="exampleInputPassword4" placeholder="Phone Number" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword4">Note</label>
+                    <input type="text" name="note" class="form-control" id="exampleInputPassword4" placeholder="Note" >
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select name="role" class="form-control" id="role">
+                        <option value="loptruong">Lớp trưởng</option>
+                        <option value="lopho">Lớp phó</option>
+                        <option value="bithu">Bí thư</option>
+                    </select>
+                </div>               
+                
+                <button type="submit" class="btn btn-primary mr-2" value="Upload">Submit</button>
+               @*  <button class="btn btn-dark" href="/Admin/Student">Cancel</button> *@
+            </form>
+        </div>
+    </div>
+</div>

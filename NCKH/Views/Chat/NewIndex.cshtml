@@ -1,0 +1,753 @@
+﻿@{
+    Layout = null;
+}
+@using NCKH.Models;
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+    public List<ItemAllUser> getAllUser()
+    {
+        List<ItemAllUser> list = db.AllUsers.ToList();
+        return list;
+    }
+
+    public List<ItemClass> getAllClass()
+    {
+        var userId = Context.Session.GetString("user_id");
+
+        var classes = (from student in db.Students
+                       join class1 in db.Class on student.Class_ID equals class1.Class_ID
+                       where student.User_ID == int.Parse(userId)
+                       select new ItemClass
+                           {
+                               Class_ID = class1.Class_ID,
+                               ClassName = class1.ClassName,
+                               NumberStudent = class1.NumberStudent,
+                               Advisor_ID = class1.Advisor_ID,
+                               Program_ID = class1.Program_ID
+                           }).ToList();
+
+        return classes;
+    }
+
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <title>DotNet Group Chat</title>
+    <style type="text/css">
+        body {
+            background-color: #191c24 !important;
+        }
+
+        .chat-online {
+            color: #34ce57
+        }
+
+        .chat-offline {
+            color: #e4606d
+        }
+
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+            overflow-y: auto
+        }
+
+        .chat-message-left,
+        .chat-message-right {
+            display: flex;
+            flex-shrink: 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #212529;
+        }
+
+        .chat-message-left {
+            margin-right: auto
+        }
+
+        .chat-message-right {
+            flex-direction: row-reverse;
+            margin-left: auto
+        }
+
+        .py-3 {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        .px-4 {
+            padding-right: 1.5rem !important;
+            padding-left: 1.5rem !important;
+        }
+
+        .flex-grow-0 {
+            flex-grow: 0 !important;
+        }
+
+        .border-top {
+            border-top: 1px solid #dee2e6 !important;
+        }
+
+		 .chat-title {
+			padding: 12px 0px;
+			color: white;
+			margin-bottom: 0px;
+			background-color: #1773EA;
+			text-align: center;
+		}
+
+		.content {
+			overflow: hidden;
+		}
+
+		.side-bar-title {
+            border-bottom: 1px solid white;
+			text-align: center;
+			padding: 10px;
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		.selected {
+            background-color: #212529 !important;
+		}
+
+        .modal-dialog {
+            max-width: 1200px !important;
+        }
+
+        .list-user {
+            height: 350px;
+            overflow-y: auto;
+        }
+
+        .icon-button {
+            border: none;
+            background: none;
+            padding: 10px;
+            cursor: pointer;
+            outline: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-left: 8px;
+        }
+
+            .icon-button:focus {
+                outline: none; /* Ensures there's no outline when focused (for accessibility, you might want to handle focus differently) */
+            }
+
+            .icon-button img {
+                height: 20px; /* Specify a size for the icon */
+                width: 20px;
+            }
+
+            .icon-button:hover {
+                background-color: #f0f0f0;
+            }
+
+        .flex-grow-1 {
+            flex-grow: 1;
+        }
+
+        .img-content:hover {
+            opacity: 0.5 !important;
+            background-color: #D3D3D3;
+        }
+
+        .normal-text {
+            text-decoration: none; /* Removes underline */
+            color: black; /* Sets text color to black */
+            cursor: pointer; /* Changes the cursor to indicate it's clickable */
+        }
+
+        .normal-text:hover {
+            text-decoration: none !important; /* Adds underline on hover for visual feedback */
+            color: black !important; /* Changes color on hover (optional) */
+        }
+
+        .dark-backg {
+            background-color: #191c24;
+        }
+
+        .dark2-backg {
+            background-color: #000000;
+        }
+
+        .dark3-backg, .bg-light {
+            background-color: #212529 !important;
+        }
+
+        .white-text {
+            color: white !important;
+        }
+
+        .list-group-item-action:focus, .list-group-item-action:hover {
+            color: #495057;
+            text-decoration: none;
+            background-color: #212529 !important;
+        }
+
+    </style>
+</head>
+<body>
+	<main class="content dark-backg">
+        <div class="p-0 dark-backg">
+
+			<h1 class="h3 chat-title d-flex justify-content-center align-items-center dark3-backg">
+				<span style="margin-right: 10px">Chat Message</span>
+				<svg width="30px" height="35px" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 452.387"><path fill-rule="nonzero" d="M276.915 436.666c-32.989-9.896-62.965-28.911-87.618-55.815 6.175.567 12.783.958 19.819 1.159 32.31.949 63.167-3.3 91.339-11.815 29.561-8.937 56.687-22.776 79.927-40.41 23.979-18.196 43.56-40.301 57.238-65.17 12.232-22.234 19.84-46.769 21.81-72.836a195.403 195.403 0 0112.994 13.486c19.513 22.316 33.012 48.301 37.715 75.028 4.856 27.594.457 55.851-16.114 81.723-5.048 7.88-11.248 15.52-18.686 22.824l8.165 49.068a15.502 15.502 0 01-.8 8.562c-3.132 8.017-12.171 11.976-20.188 8.844l-55.504-21.826c-44.846 17.676-89.637 19.315-130.097 7.178z" /><path fill="#D8F0F0" d="M212.522 382.09c51.415 47.307 122.9 61.072 194.383 30.61l61.283 24.098-9.593-57.651c57.022-49.859 43.787-119.134-1.727-167.884-3.555 18.854-10.111 36.745-19.248 53.352-13.678 24.869-33.259 46.974-57.238 65.17-23.24 17.634-50.366 31.473-79.927 40.41-27.181 8.215-56.861 12.459-87.933 11.895z" /><path fill-rule="nonzero" d="M369.951 55.167c38.685 33.165 61.879 78.348 60.427 127.704l-.004.172c-1.516 49.407-27.413 93.189-68.065 124.036-39.713 30.136-93.646 47.911-152.383 46.183-15.058-.442-29.669-1.977-43.59-4.684-11.877-2.308-23.389-5.475-34.399-9.545L25.552 371.527l31.949-75.984c-17.241-15.38-31.223-33.198-41.066-52.706C5.175 220.521-.707 196.009.068 170.392 1.561 120.96 27.462 77.156 68.131 46.297c85.638-64.984 220.168-61.131 301.82 8.87z" /><path fill="#50A9B7" d="M220.09 15.665c110.235 3.244 197.422 77.965 194.731 166.89-2.688 88.93-94.233 158.397-204.469 155.154-27.75-.815-54.238-5.665-77.796-15.126l-79.801 24.374 23.518-55.933c-38.601-30.58-62.068-73.422-60.651-120.205 2.685-88.93 94.233-158.395 204.468-155.154z" /><path fill-rule="nonzero" d="M129.631 216.936c-5.368 0-9.72-4.352-9.72-9.72s4.352-9.72 9.72-9.72H249.43c5.368 0 9.72 4.352 9.72 9.72s-4.352 9.72-9.72 9.72H129.631zm0-68.927c-5.368 0-9.72-4.352-9.72-9.72 0-5.367 4.352-9.719 9.72-9.719h171.178c5.368 0 9.719 4.352 9.719 9.719 0 5.368-4.351 9.72-9.719 9.72H129.631z" /></svg>
+			</h1>
+
+			<div class="card">
+				<div class="row g-0">
+                    <div class="col-3 dark-backg white-text" style="padding: 0px 0px 0px 5px; border-right: 1px solid #E7EAED">
+
+						@* <div class="px-4 d-none d-md-block">
+							<div class="d-flex align-items-center">
+								<div class="flex-grow-1">
+									<input type="text" class="form-control my-3" placeholder="Search...">
+								</div>
+							</div>
+						</div> *@
+
+						<div class=" side-bar-title dark-backg white-text" style="position: relative;">
+                            <span class="white-text">Group List</span>
+                            <button
+                                style="position: absolute; top: 5px; right: 10px;" class="btn btn-primary" data-toggle="modal" data-target="#CreateNewGroup">Create</button>
+						</div>
+
+                        <div class="dark-backg white-text" id="list-group" style="overflow-y: auto; height: 80vh;">
+							
+						</div>
+						
+						@* <a href="#" class="list-group-item list-group-item-action border-0">
+							<div class="d-flex align-items-start">
+								<img src="~/ImgChat/chat.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+								<div class="flex-grow-1 ml-3">
+									Sharon Lessman
+									<div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+								</div>
+							</div>
+						</a> *@
+					
+
+						<hr class="d-block d-lg-none mt-1 mb-0">
+					</div>
+					<div class="col-6" style="padding: 0px">
+
+						<div class="position-relative">
+                            <div id="messagesContainer" class="dark-backg white-text chat-messages p-4">
+
+							</div>
+						</div>
+
+						<div class="dark-backg white-text flex-grow-0 py-3 px-4 border-top">
+							<div class="input-group d-flex">
+                                @using (Html.BeginForm("SendMessage", "Chat", FormMethod.Post, new { @id = "message-form", @class = "d-flex flex-grow-1" }))
+                                {
+                                    <input id="Message" name="Content" type="text" class="form-control" placeholder="Type your message">
+                                    <input type="hidden" name="GroupID" id="groupID" value="">
+                                    <button id="sendButton" type="submit" class="btn btn-primary">Send</button>
+                                }
+                                @using (Html.BeginForm("UploadImage", "Chat", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadImg" }))
+                                {
+                                    <input accept="image/*" type="file" id="image-input" style="display: none;" onchange="submitFormImg()">
+                                    <button style="background-color: #212529; height: 49px;" id="image-btn" type="button" class="icon-button d-flex align-items-center" onclick="document.getElementById('image-input').click();">
+                                        <svg fill="#ffffff" height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 489.4 489.4" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M0,437.8c0,28.5,23.2,51.6,51.6,51.6h386.2c28.5,0,51.6-23.2,51.6-51.6V51.6c0-28.5-23.2-51.6-51.6-51.6H51.6 C23.1,0,0,23.2,0,51.6C0,51.6,0,437.8,0,437.8z M437.8,464.9H51.6c-14.9,0-27.1-12.2-27.1-27.1v-64.5l92.8-92.8l79.3,79.3 c4.8,4.8,12.5,4.8,17.3,0l143.2-143.2l107.8,107.8v113.4C464.9,452.7,452.7,464.9,437.8,464.9z M51.6,24.5h386.2 c14.9,0,27.1,12.2,27.1,27.1v238.1l-99.2-99.1c-4.8-4.8-12.5-4.8-17.3,0L205.2,333.8l-79.3-79.3c-4.8-4.8-12.5-4.8-17.3,0 l-84.1,84.1v-287C24.5,36.7,36.7,24.5,51.6,24.5z"></path> <path d="M151.7,196.1c34.4,0,62.3-28,62.3-62.3s-28-62.3-62.3-62.3s-62.3,28-62.3,62.3S117.3,196.1,151.7,196.1z M151.7,96 c20.9,0,37.8,17,37.8,37.8s-17,37.8-37.8,37.8s-37.8-17-37.8-37.8S130.8,96,151.7,96z"></path> </g> </g> </g></svg>
+                                    </button>
+                                }
+                                @using (Html.BeginForm("UploadImage", "Chat", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFile" }))
+                                {
+                                    <input type="file" id="file-input" style="display: none;" onchange="submitFormFile()">
+                                    <button style="background-color: #212529; height: 49px;" id="file-btn" type="button" class="icon-button d-flex align-items-center" onclick="document.getElementById('file-input').click();">
+                                        <svg fill="#ffffff" height="20px" width="20px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5.397 31.488c-1.356 0-2.659-0.561-3.697-1.6-2.301-2.309-2.301-6.064-0.001-8.372l17.946-19.057c2.8-2.804 7.089-2.553 10.219 0.582 1.402 1.405 2.189 3.431 2.16 5.559-0.029 2.107-0.852 4.123-2.259 5.531l-13.563 14.439c-0.377 0.404-1.011 0.423-1.413 0.044s-0.421-1.014-0.043-1.417l13.584-14.461c1.063-1.065 1.672-2.575 1.695-4.164s-0.552-3.090-1.574-4.114c-1.92-1.924-5.046-2.932-7.37-0.602l-17.945 19.057c-1.543 1.547-1.542 4.032-0.020 5.558 0.714 0.715 1.562 1.063 2.464 1.008 0.893-0.055 1.811-0.512 2.585-1.288l14.279-15.198c0.517-0.518 1.558-1.79 0.499-2.851-0.599-0.601-1.020-0.563-1.159-0.552-0.395 0.035-0.858 0.309-1.337 0.79l-10.748 11.43c-0.38 0.404-1.013 0.423-1.414 0.043-0.402-0.379-0.421-1.014-0.042-1.416l10.767-11.452c0.846-0.851 1.712-1.312 2.593-1.391 0.688-0.061 1.71 0.085 2.753 1.131 1.548 1.551 1.355 3.826-0.477 5.663l-14.279 15.197c-1.14 1.144-2.517 1.808-3.898 1.893-0.101 0.007-0.203 0.010-0.304 0.010z"></path> </g></svg>
+                                    </button>
+                                }
+							</div>
+						</div>
+
+
+					</div>
+					<div class="dark-backg white-text col-3" style="padding: 0px; border-left: 1px solid #E7EAED">
+
+						@* <div class="px-4 d-none d-md-block">
+						<div class="d-flex align-items-center">
+						<div class="flex-grow-1">
+						<input type="text" class="form-control my-3" placeholder="Search...">
+						</div>
+						</div>
+						</div> *@
+
+						<div class="dark-backg white-text side-bar-title" style="position: relative;">
+							Users in Group
+                            <div style="position: absolute; top: 5px; left: 20px">
+                                <button id="del-btn" class="btn btn-danger" onclick="btnDel()">Leave</button>
+                            </div>
+                            <div style="position: absolute; top: 5px; right: 20px">
+                                <button id="add-btn" class="btn btn-primary" data-toggle="modal" data-target="#AddGroup">Add</button>
+                            </div>
+						</div>
+
+                        <div class="dark-backg white-text" id="usersContainer" style="overflow-y: auto; height: 80vh;">
+
+						</div>
+						
+						@* <a href="#" class="list-group-item list-group-item-action border-0">
+							<div class="d-flex align-items-start">
+								<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+								<div class="flex-grow-1 ml-3">
+									Sharon Lessman
+									<div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+								</div>
+							</div>
+						</a> *@
+
+						<hr class="d-block d-lg-none mt-1 mb-0">
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+    <!-- Modal -->
+    <div class="modal fade" id="CreateNewGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-group" method="post" action="@Url.Action("CreateGroup", "Chat")" id="CreateGroupForm">
+                        <div class="form-group">
+                            <label for="GroupName">Group Name</label>
+                            <input type="text" class="form-control" name="GroupName" id="GroupName" aria-describedby="emailHelp" placeholder="Group Name">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div>Add Users</div>
+                            @{
+                                List<ItemClass> list = getAllClass();
+                            }
+                            <select class="form-control" name="classId" id="classDropdown" style="width: 200px">
+                                <option value="" disabled selected>Choose Class</option>
+                                <option value="all">All</option>
+                                @foreach (var item in list)
+                                {
+                                    <option value="@item.Class_ID">@item.ClassName</option>
+                                }
+                            </select>
+                        </div>
+                        <div id="list-user" class="row list-user">
+                            <!-- List users here -->    
+                           
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="CreateNewGroupButton">Create Group</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="AddGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-group2" method="post" action="@Url.Action("AddToGroup", "Chat")" id="CreateGroupForm">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div>Add Users</div>
+                            <select class="form-control" name="classId" id="classDropdown2" style="width: 200px">
+                                <option value="" disabled selected>Choose Class</option>
+                                <option value="all">All</option>
+                                @foreach (var item in list)
+                                {
+                                    <option value="@item.Class_ID">@item.ClassName</option>
+                                }
+                            </select>
+                        </div>
+                        <div id="list-user2" class="row list-user">
+                            <!-- List users here -->
+
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="CreateNewGroupButton">Add to Group</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+        var userId = '@Context.Session.GetString("user_id")';
+
+        // id group dc chon
+        var selectedGroupId = 0;
+
+        function disabledBtn(value) {
+            $('#Message').prop('disabled', value);
+            $('#sendButton').prop('disabled', value);
+            $('#image-btn').prop('disabled', value);
+            $('#file-btn').prop('disabled', value);
+            $('#add-btn').prop('disabled', value);
+            $('#del-btn').prop('disabled', value);
+        }
+
+        function submitFormImg() {
+            var fileInput = document.getElementById('image-input');
+            var file = fileInput.files[0]; // Access the file
+
+            if (file) {
+                var formData = new FormData();
+                formData.append('file', file); // Append the file
+                formData.append('GroupId', selectedGroupId);
+
+                $.ajax({
+                    url: '@Url.Action("UploadImage", "Chat")', // Adjust accordingly
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        connection.invoke("SendMessageToGroup", String(selectedGroupId), "updateMes", String(userId)).catch(err => console.error(err.toString()));
+                    },
+                    error: function () {
+                        alert('Error uploading image.');
+                    }
+                });
+            } else {
+                alert('No file selected.');
+            }
+        }
+
+        function submitFormFile() {
+            var fileInput = document.getElementById('file-input');
+            var file = fileInput.files[0]; // Access the file
+
+            if (file) {
+                var formData = new FormData();
+                formData.append('file', file); // Append the file
+                formData.append('GroupId', selectedGroupId);
+
+                $.ajax({
+                    url: '@Url.Action("UploadFile", "Chat")', // Adjust accordingly
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        connection.invoke("SendMessageToGroup", String(selectedGroupId), "updateMes", String(userId)).catch(err => console.error(err.toString()));
+                    },
+                    error: function () {
+                        alert('Error uploading file.');
+                    }
+                });
+            } else {
+                alert('No file selected.');
+            }
+        }
+
+        $('#list-group').load('/Chat/LoadGroupChat', function () {
+            $('.group').click(function () {
+                var groupId = $(this).data('group-id');
+                $('.group').removeClass('selected');
+                $(this).addClass('selected');  // Highlight the selected group
+                $('#groupID').val(groupId);
+                // Load the message sending form dynamically or update the groupId in the existing form
+                $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupId }, function () {
+                    var objDiv = document.getElementById("messagesContainer");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                });
+                $('#usersContainer').load('/Chat/GetUsersInGroup', { groupId: groupId });
+                selectedGroupId = $(this).data('group-id');
+                disabledBtn(false)
+            });
+        })
+
+        // ket noi hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .build();
+        async function start() {
+            try {
+                await connection.start().then(function () {
+                    // lang nghe tung group chat minh tham gia
+        @foreach (var group in Model)
+        {
+            <text>
+                            connection.invoke("JoinGroup", "@group.ID").catch(function (err) {
+                                return console.error(err.toString());
+                            });
+            </text>
+        }
+                        });
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.error(err);
+                setTimeout(start, 5000);
+            }
+        };
+        start();
+
+        // xu ly khi co thay doi
+        connection.on("ReceiveMessage", function (groupName, message, userID, listUser) {
+            // khi gui tin nhan
+            if (message == "updateMes" && groupName == selectedGroupId) {
+                $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupName }, function () {
+                    if (String(userId) == String(userID)) {
+                        var objDiv = document.getElementById("messagesContainer");
+                        objDiv.scrollTop = objDiv.scrollHeight;
+                    }
+                });
+            }
+            if (message == "AddUser") {
+
+
+                for (let x of listUser) {
+
+                    if (x == userId) {
+
+                        $('#list-group').load('/Chat/LoadGroupChat', function () {
+                            $('.group').click(function () {
+                                var groupId = $(this).data('group-id');
+                                $('.group').removeClass('selected');
+                                $(this).addClass('selected');  // Highlight the selected group
+                                $('#groupID').val(groupId);
+                                // Load the message sending form dynamically or update the groupId in the existing form
+                                $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupId }, function () {
+                                    var objDiv = document.getElementById("messagesContainer");
+                                    objDiv.scrollTop = objDiv.scrollHeight;
+                                });
+                                $('#usersContainer').load('/Chat/GetUsersInGroup', { groupId: groupId });
+                                selectedGroupId = $(this).data('group-id');
+                                disabledBtn(false)
+                            });
+                            if (selectedGroupId != 0) {
+                                $('.group').each(function () {
+                                    if ($(this).data('group-id') == selectedGroupId) {
+                                        $(this).addClass('selected');
+                                    }
+                                });
+                            }
+                            
+                        })
+
+                        if (selectedGroupId == groupName) {
+                            $('#usersContainer').load('/Chat/GetUsersInGroup', { groupId: groupName });
+                            $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupName }, function () {
+                                var objDiv = document.getElementById("messagesContainer");
+                                objDiv.scrollTop = objDiv.scrollHeight;
+                            });
+                        }
+                        connection.invoke("JoinGroup", String(groupName)).catch(function (err) {
+                            return console.error(err.toString());
+                        });
+                        break;
+                    }
+                }
+            }
+            // khi xoa user
+            if (message == "deleteUser") {
+                if (String(userID) == String(userId)) {
+                    $('#list-group').load('/Chat/LoadGroupChat', function () {
+                        $('.group').click(function () {
+                            var groupId = $(this).data('group-id');
+                            $('.group').removeClass('selected');
+                            $(this).addClass('selected');  // Highlight the selected group
+                            $('#groupID').val(groupId);
+                            // Load the message sending form dynamically or update the groupId in the existing form
+                            $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupId }, function () {
+                                var objDiv = document.getElementById("messagesContainer");
+                                objDiv.scrollTop = objDiv.scrollHeight;
+                            });
+                            $('#usersContainer').load('/Chat/GetUsersInGroup', { groupId: groupId });
+                            selectedGroupId = $(this).data('group-id');
+                            disabledBtn(false)
+                        });
+                        if (selectedGroupId == groupName) {
+                            selectedGroupId = 0;
+                            disabledBtn(true)
+                            $('#messagesContainer').empty();
+                            $('#usersContainer').empty();
+                        } else {
+                            $('.group').each(function () {
+                                if ($(this).data('group-id') == selectedGroupId) {
+                                    $(this).addClass('selected');
+                                }
+                            });
+                        }
+                        connection.invoke("LeaveGroup", String(groupName))
+                    })
+                } else {
+                    if (groupName == selectedGroupId) {
+                        $('#usersContainer').load('/Chat/GetUsersInGroup', { groupId: selectedGroupId });
+                        $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupName }, function () {
+                            var objDiv = document.getElementById("messagesContainer");
+                            objDiv.scrollTop = objDiv.scrollHeight;
+                        });
+                    }
+                }
+            }
+        });
+
+        $(document).ready(function () {
+
+            $('#classDropdown').on('change', function () {
+                var classId = $(this).val();
+                if (classId) {
+                    $.ajax({
+                        url: '@Url.Action("GetStudentsByClass", "Chat")', // Sửa đổi URL và tên controller
+                        type: 'GET',
+                        data: { classId: classId },
+                        success: function (response) {
+                            $('#list-user').html(response);
+
+                        },
+                        error: function () {
+                            alert('Error loading students.');
+                        }
+                    });
+                } else {
+                    $('#list-user').html('');
+                }
+            });
+
+            $('#classDropdown2').on('change', function () {
+                var classId = $(this).val();
+                if (classId) {
+                    $.ajax({
+                        url: '@Url.Action("GetStudentsNotInGroup", "Chat")', // Sửa đổi URL và tên controller
+                        type: 'GET',
+                        data: { classId: classId, GroupID: selectedGroupId },
+                        success: function (response) {
+                            $('#list-user2').html(response);
+                        },
+                        error: function () {
+                            alert('Error loading students.');
+                        }
+                    });
+                } else {
+                    $('#list-user').html('');
+                }
+            });
+
+            disabledBtn(true)
+
+            $('#message-form').on('submit', function (e) {
+                e.preventDefault();
+
+                if (document.getElementById("Message").value === "") {
+                    alert("Vui lòng nhập tin nhắn.");
+                    return
+                }
+
+                var formData = $(this).serialize();
+                $.post(this.action, formData, function (response) {
+                    $('input[name="Content"]').val('');
+                    connection.invoke("SendMessageToGroup", String(selectedGroupId), "updateMes", String(userId)).catch(err => console.error(err.toString()));
+                });
+            });
+
+            $('#create-group').on('submit', function (e) {
+
+                e.preventDefault();
+                var formData = $(this).serialize();
+
+                if (document.getElementById("GroupName").value === "") {
+                    alert("Vui lòng nhập tên nhóm.");
+                    return
+                }
+
+                if (formData.split("checkedUsers").length - 1 < 2) {
+                    alert("Vui lòng chọn ít nhất 2 người");
+                    return
+                }
+
+                $.post(this.action, formData, function (response) {
+                     $('#CreateNewGroup').modal('hide');
+
+                    var selectElement = document.getElementById("classDropdown");
+                    // Tạo sự kiện change
+                    var event = new Event('change');
+                    // Kích hoạt sự kiện change trên thẻ select
+                    selectElement.dispatchEvent(event);
+
+                });
+            });
+
+            $('#create-group2').on('submit', function (e) {
+
+                e.preventDefault();
+                var formData = $(this).serialize();
+                formData += "&GroupID=" + String(selectedGroupId);
+
+                if (formData.split("checkedUsers").length - 1 < 1) {
+                    alert("Vui lòng chọn ít nhất 1 người");
+                    return
+                }
+
+                $.post(this.action, formData, function (response) {
+                    $('#AddGroup').modal('hide');
+
+                    var selectElement = document.getElementById("classDropdown2");
+                    // Tạo sự kiện change
+                    var event = new Event('change');
+                    // Kích hoạt sự kiện change trên thẻ select
+                    selectElement.dispatchEvent(event);
+              
+                });
+            });
+
+        });
+
+        function btnDel() {
+            $.ajax({
+                url: '@Url.Action("LeaveGroup", "Chat")', // Controller /Action Path
+                type: 'POST',
+                data: { GroupID: selectedGroupId },
+                success: function (response) {
+
+                    connection.invoke("SendMessageToGroup", String(selectedGroupId), "deleteUser", String(userId))
+
+                },
+                error: function () {
+                    alert(" There was an error processing your request.");
+                }
+            });
+        }
+
+
+
+
+    </script>
+
+</body>
+</html>

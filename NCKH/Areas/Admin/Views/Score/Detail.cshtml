@@ -1,0 +1,83 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var advisor_id = HttpContextAccessor.HttpContext.Session.GetString("advisor_id");
+}
+@using NCKH.Models;
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+
+}
+@{
+    int? classID = ViewBag.ClassID as int?;
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div style="display:flex">
+                    <div>
+                        <h4 class="card-title">Management Student in @ViewBag.ClassName Info</h4>
+                    </div>                    
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-light">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> Student Code </th>
+                                <th> Name </th>
+                                <th> Role </th>
+                                <th> Note </th>
+                                <th> Option </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @{
+                                 var counter_1 = 1;
+                            }
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td> @counter_1</td>
+                                        <td> @item.StudentCode </td>
+                                        <td> @item.StudentName </td>
+                                        <td> @item.Role </td>
+                                        <td> @item.Note </td>
+                                        <td>
+                                            <a class="btn btn-primary btn-fw" href="/Admin/Student/ViewScore/@item.Student_ID">View score</a>
+                                        </td>
+                                    </tr>
+                                    counter_1++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">No students in this class</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="btn-group" style="padding-top: 15px;" role="group" aria-label="Basic example">
+                        @for (int i = 1; i <= Model.PageCount; i++)
+                        {
+                            <button type="button" class="btn btn-outline-dark btn-fw" onclick="location.href='@Url.Action("Detail", new { page = i })'">@i</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

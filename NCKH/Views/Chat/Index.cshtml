@@ -1,0 +1,293 @@
+﻿@{
+    Layout = null;
+}
+@using NCKH.Models;
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+    public List<ItemAllUser> getAllUser()
+    {
+        List<ItemAllUser> list = db.AllUsers.ToList();
+        return list;
+    }
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <title>DotNet Group Chat</title>
+    <style type="text/css">
+        .group {
+            padding: 13px;
+            border-radius: 12px;
+            background: rgb(57, 125, 192);
+            margin: 5px 0px;
+            font-weight: bolder;
+            color: black;
+            cursor: pointer;
+        }
+
+        .chat_body {
+            height: 520px;
+            overflow: scroll;
+        }
+
+        .less_padding {
+            padding: 2px;
+        }
+
+        .chat_message {
+            padding: 13px;
+            border-radius: 12px;
+            width: 50%;
+            background: #85C1E9;
+            margin: 6px 4px;
+        }
+
+        .chat_main {
+            background-color: #957bbe;
+            height: 520;
+            padding: 0px;
+        }
+
+        .group_main {
+            background-color: #85C1E9;
+        }
+
+        .modal-dialog { 
+            max-width: 1200px !important;
+        }
+
+        .list-user {
+            height: 350px;
+            overflow-y: scroll;
+        }
+
+        .group {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+            .group.selected {
+                background-color: #ccc;
+            }
+
+    </style>
+</head>
+<body>
+    <h3 class="text-center">Welcome</h3>
+    <div class="container" style="background-color: grey;">
+        <div class="row">
+            <div class="col-md-2 less_padding">
+                <div class="col group_main">
+                    <div class="text-center"> Groups </div>
+                    <div clsss="row" style="height: 500px;overflow: scroll;" id="list-group">
+                       @*  <!-- List groups-->
+                            @foreach (var group in Model)
+                            {
+                                <div class="group" data-group-id="@group.ID"> @group.Name </div>
+                            } *@
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#CreateNewGroup">Add Group</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 less_padding">
+                <div class="col-md-12 chat_main">
+                    <div id="messagesContainer" class="chat_body">
+                        <!-- <div class="chat_message float-right">Hello, </div> -->
+                    </div>
+                    @using (Html.BeginForm("SendMessage", "Chat", FormMethod.Post, new { @id = "message-form" }))
+                            {
+                    <div class="row container" style="margin-left: 3px;">
+                        <div class="col-md-9 col-sm-9 less_padding">
+
+                                <input class="form-control" id="Message" name="Content" required></input>
+                                <input type="hidden" name="GroupID" id="groupID" value="">
+                        </div>
+                        <div class="col-md-3 col-sm-3 less_padding">
+                                <button id="sendButton" type="submit" class="btn btn-primary" style=" position: absolute;" id="SendMessage">Send Message</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-2 less_padding">
+                <div class="col group_main">
+                    <div class="text-center"> User </div>
+                    <div id="usersContainer" clsss="row" style="height: 500px;overflow: scroll;">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="CreateNewGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-group" method="post" action="@Url.Action("CreateGroup", "Chat")" id="CreateGroupForm">
+                        <div class="form-group">
+                            <label for="GroupName">Group Name</label>
+                            <input type="text" class="form-control" name="GroupName" id="GroupName" aria-describedby="emailHelp" placeholder="Group Name">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div>Add Users</div>
+@*                             <div class="d-flex flex-collumn align-items-center">
+                                <div style="margin-right: 10px">Search: </div>
+                                <input type="text" class="form-control" placeholder="Enter email">
+                            </div> *@
+                        </div>
+                        <div class="row list-user">
+                            <!-- List users here -->
+                            @{
+                                List<ItemAllUser> list = getAllUser();
+                            }
+                            @foreach (var user in list)
+                            {
+                                <div class="col-4">
+                                    <div class="form-check">
+                                        <input @(ViewBag.CurrentUserId == user.User_ID ? "checked='checked'" : "") type="checkbox" class="form-check-input" id="user_@user.User_ID" value="@user.User_ID" name="checkedUsers">
+                                        <label class="form-check-label" for="user_@user.User_ID">@user.Email</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="CreateNewGroupButton">Create Group</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+        // id group dc chon
+        var selectedGroupId = 0;
+
+        $('#list-group').load('/Chat/LoadGroupChat', function () {
+            $('.group').click(function () {
+                var groupId = $(this).data('group-id');
+                $('.group').removeClass('selected');
+                $(this).addClass('selected');  // Highlight the selected group
+                $('#groupID').val(groupId);
+                // Load the message sending form dynamically or update the groupId in the existing form
+                $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupId });
+                $('#usersContainer').load('/Chat/GetUsersInGroup', { groupId: groupId });
+                selectedGroupId = $(this).data('group-id');
+            });
+        })
+
+        // ket noi hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .build();
+        async function start() {
+            try {
+                await connection.start().then(function () {
+                    // lang nghe tung group chat minh tham gia
+                    @foreach (var group in Model)
+                    {
+                        <text>
+                            connection.invoke("JoinGroup", "@group.ID").catch(function (err) {
+                                return console.error(err.toString());
+                            });
+                        </text>
+                    }
+                });
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.error(err);
+                setTimeout(start, 5000);
+            }
+        };
+        start();
+
+        // xu ly khi co thay doi
+        connection.on("ReceiveMessage", function (groupName, message) {
+            if (message == "updateMes" && groupName == selectedGroupId) {
+                $('#messagesContainer').load('/Chat/GetMessages', { groupId: selectedGroupId });
+            }
+            if (message == "updateGroup") {
+                $('#list-group').load('/Chat/LoadGroupChat', function () {
+                    $('.group').click(function () {
+                        var groupId = $(this).data('group-id');
+                        $('.group').removeClass('selected');
+                        $(this).addClass('selected');  // Highlight the selected group
+                        $('#groupID').val(groupId);
+                        // Load the message sending form dynamically or update the groupId in the existing form
+                        $('#messagesContainer').load('/Chat/GetMessages', { groupId: groupId });
+                        $('#usersContainer').load('/Chat/GetUsersInGroup', { groupId: groupId });
+                        selectedGroupId = $(this).data('group-id');
+                    });
+                    if (selectedGroupId != 0) {
+                        $('.group').each(function () {
+                            if ($(this).data('group-id') == selectedGroupId) {
+                                $(this).addClass('selected');
+                            }
+                        });
+                    }
+                })
+            }
+        });
+
+        $(document).ready(function () {
+
+            $('#message-form').on('submit', function (e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.post(this.action, formData, function (response) {
+                    $('input[name="Content"]').val(''); 
+                    connection.invoke("SendMessageToGroup", String(selectedGroupId), "updateMes").catch(err => console.error(err.toString()));
+                });
+            });
+
+            $('#create-group').on('submit', function (e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.post(this.action, formData, function (response) {
+                    connection.invoke("JoinGroup", String(response)).then(function () {
+                        connection.invoke("SendMessageToGroup", String(response), "updateGroup")
+                    }) 
+                    .catch(function (err) {
+                        return console.error(err.toString());
+                    });
+                   
+                    $('#CreateNewGroup').modal('hide');
+
+                });
+            });
+
+
+        });
+
+
+
+
+    </script>
+
+</body>
+</html>
