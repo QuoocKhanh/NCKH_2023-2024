@@ -14,22 +14,54 @@
     public List<ItemClass> getAllClass()
     {
         var userId = Context.Session.GetString("user_id");
+        int user = Convert.ToInt32(userId);
+        ItemAllUser i = db.AllUsers.Where(n => n.User_ID == user).FirstOrDefault();
 
-        var classes = (from student in db.Students
-                       join class1 in db.Class on student.Class_ID equals class1.Class_ID
-                       where student.User_ID == int.Parse(userId)
-                       select new ItemClass
-                           {
-                               Class_ID = class1.Class_ID,
-                               ClassName = class1.ClassName,
-                               NumberStudent = class1.NumberStudent,
-                               Advisor_ID = class1.Advisor_ID,
-                               Program_ID = class1.Program_ID
-                           }).ToList();
+        if (i.Type == 2)
+        {
+            var classes = (from student in db.Students
+                           join class1 in db.Class on student.Class_ID equals class1.Class_ID
+                           where student.User_ID == user
+                           select new ItemClass
+                               {
+                                   Class_ID = class1.Class_ID,
+                                   ClassName = class1.ClassName,
+                                   NumberStudent = class1.NumberStudent,
+                                   Advisor_ID = class1.Advisor_ID,
+                                   Program_ID = class1.Program_ID
+                               }).ToList();
+            return classes;
+        }
+        else if (i.Type == 1)
+        {
+            var classes = (from class1 in db.Class
+                           join advisor1 in db.Advisors on class1.Advisor_ID equals advisor1.Advisor_ID
+                           where advisor1.User_ID == user
+                           select new ItemClass
+                               {
+                                   Class_ID = class1.Class_ID,
+                                   ClassName = class1.ClassName,
+                                   NumberStudent = class1.NumberStudent,
+                                   Advisor_ID = class1.Advisor_ID,
+                                   Program_ID = class1.Program_ID
+                               }).ToList();
+            return classes;
+        }
 
-        return classes;
+        return new List<ItemClass>();
     }
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
+@{
+    var advisor_id = HttpContextAccessor.HttpContext.Session.GetString("advisor_id");
+    var stu_id = HttpContextAccessor.HttpContext.Session.GetString("stu_id");
+    var name = HttpContextAccessor.HttpContext.Session.GetString("name");
+    var email = HttpContextAccessor.HttpContext.Session.GetString("email");
+    var user_id = HttpContextAccessor.HttpContext.Session.GetString("user_id");
+    int id = Convert.ToInt32(user_id);
+}
 }
 <!doctype html>
 <html lang="en">
@@ -66,7 +98,7 @@
             flex-shrink: 0;
             padding: 10px;
             border-radius: 5px;
-            background-color: #212529;
+            background-color: #f2f4f4;
         }
 
         .chat-message-left {
@@ -117,7 +149,7 @@
 		}
 
 		.selected {
-            background-color: #212529 !important;
+            background-color: lightgray !important;
 		}
 
         .modal-dialog {
@@ -162,38 +194,7 @@
             background-color: #D3D3D3;
         }
 
-        .normal-text {
-            text-decoration: none; /* Removes underline */
-            color: black; /* Sets text color to black */
-            cursor: pointer; /* Changes the cursor to indicate it's clickable */
-        }
-
-        .normal-text:hover {
-            text-decoration: none !important; /* Adds underline on hover for visual feedback */
-            color: black !important; /* Changes color on hover (optional) */
-        }
-
-        .dark-backg {
-            background-color: #191c24;
-        }
-
-        .dark2-backg {
-            background-color: #000000;
-        }
-
-        .dark3-backg, .bg-light {
-            background-color: #212529 !important;
-        }
-
-        .white-text {
-            color: white !important;
-        }
-
-        .list-group-item-action:focus, .list-group-item-action:hover {
-            color: #495057;
-            text-decoration: none;
-            background-color: #212529 !important;
-        }
+       
 
     </style>
 </head>
@@ -201,10 +202,14 @@
 	<main class="content dark-backg">
         <div class="p-0 dark-backg">
 
-			<h1 class="h3 chat-title d-flex justify-content-center align-items-center dark3-backg">
+			<h1 class="h3 chat-title d-flex justify-content-center align-items-center  " style="position:relative;">
 				<span style="margin-right: 10px">Chat Message</span>
 				<svg width="30px" height="35px" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 452.387"><path fill-rule="nonzero" d="M276.915 436.666c-32.989-9.896-62.965-28.911-87.618-55.815 6.175.567 12.783.958 19.819 1.159 32.31.949 63.167-3.3 91.339-11.815 29.561-8.937 56.687-22.776 79.927-40.41 23.979-18.196 43.56-40.301 57.238-65.17 12.232-22.234 19.84-46.769 21.81-72.836a195.403 195.403 0 0112.994 13.486c19.513 22.316 33.012 48.301 37.715 75.028 4.856 27.594.457 55.851-16.114 81.723-5.048 7.88-11.248 15.52-18.686 22.824l8.165 49.068a15.502 15.502 0 01-.8 8.562c-3.132 8.017-12.171 11.976-20.188 8.844l-55.504-21.826c-44.846 17.676-89.637 19.315-130.097 7.178z" /><path fill="#D8F0F0" d="M212.522 382.09c51.415 47.307 122.9 61.072 194.383 30.61l61.283 24.098-9.593-57.651c57.022-49.859 43.787-119.134-1.727-167.884-3.555 18.854-10.111 36.745-19.248 53.352-13.678 24.869-33.259 46.974-57.238 65.17-23.24 17.634-50.366 31.473-79.927 40.41-27.181 8.215-56.861 12.459-87.933 11.895z" /><path fill-rule="nonzero" d="M369.951 55.167c38.685 33.165 61.879 78.348 60.427 127.704l-.004.172c-1.516 49.407-27.413 93.189-68.065 124.036-39.713 30.136-93.646 47.911-152.383 46.183-15.058-.442-29.669-1.977-43.59-4.684-11.877-2.308-23.389-5.475-34.399-9.545L25.552 371.527l31.949-75.984c-17.241-15.38-31.223-33.198-41.066-52.706C5.175 220.521-.707 196.009.068 170.392 1.561 120.96 27.462 77.156 68.131 46.297c85.638-64.984 220.168-61.131 301.82 8.87z" /><path fill="#50A9B7" d="M220.09 15.665c110.235 3.244 197.422 77.965 194.731 166.89-2.688 88.93-94.233 158.397-204.469 155.154-27.75-.815-54.238-5.665-77.796-15.126l-79.801 24.374 23.518-55.933c-38.601-30.58-62.068-73.422-60.651-120.205 2.685-88.93 94.233-158.395 204.468-155.154z" /><path fill-rule="nonzero" d="M129.631 216.936c-5.368 0-9.72-4.352-9.72-9.72s4.352-9.72 9.72-9.72H249.43c5.368 0 9.72 4.352 9.72 9.72s-4.352 9.72-9.72 9.72H129.631zm0-68.927c-5.368 0-9.72-4.352-9.72-9.72 0-5.367 4.352-9.719 9.72-9.719h171.178c5.368 0 9.719 4.352 9.719 9.719 0 5.368-4.351 9.72-9.719 9.72H129.631z" /></svg>
-			</h1>
+			    <div style="display:flex; align-items:center; position:absolute; right:5px;top:0px;font-size:16px">
+                    @email<img src="~/ImgChat/user.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                </div>
+            
+            </h1>
 
 			<div class="card">
 				<div class="row g-0">
@@ -333,18 +338,25 @@
                             <input type="text" class="form-control" name="GroupName" id="GroupName" aria-describedby="emailHelp" placeholder="Group Name">
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb-2">
+
                             <div>Add Users</div>
-                            @{
-                                List<ItemClass> list = getAllClass();
-                            }
-                            <select class="form-control" name="classId" id="classDropdown" style="width: 200px">
-                                <option value="" disabled selected>Choose Class</option>
-                                <option value="all">All</option>
-                                @foreach (var item in list)
-                                {
-                                    <option value="@item.Class_ID">@item.ClassName</option>
+                            <div style="display:flex;align-items:center">
+                                <div class="form-check" style="margin-right:10px">
+                                    <input type="checkbox" id="selectAllCheckbox" class="form-check-input">
+                                    <label class="form-check-label" for="selectAllCheckbox">Select All</label>
+                                </div>
+                                @{
+                                    List<ItemClass> list = getAllClass();
                                 }
-                            </select>
+                                <select class="form-control" name="classId" id="classDropdown" style="width: 200px">
+                                    <option value="" disabled selected>Choose Class</option>
+                                    <option value="all">All</option>
+                                    @foreach (var item in list)
+                                    {
+                                        <option value="@item.Class_ID">@item.ClassName</option>
+                                    }
+                                </select>
+                            </div>                                                    
                         </div>
                         <div id="list-user" class="row list-user">
                             <!-- List users here -->    
@@ -405,6 +417,14 @@
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+                                document.getElementById('selectAllCheckbox').addEventListener('change', function () {
+                                    var checkboxes = document.getElementsByName('checkedUsers');
+                                    for (var i = 0; i < checkboxes.length; i++) {
+                                        checkboxes[i].checked = this.checked;
+                                    }
+                                });
+                            </script>
     <script>
 
         var userId = '@Context.Session.GetString("user_id")';
@@ -684,12 +704,7 @@
                 if (document.getElementById("GroupName").value === "") {
                     alert("Vui lòng nhập tên nhóm.");
                     return
-                }
-
-                if (formData.split("checkedUsers").length - 1 < 2) {
-                    alert("Vui lòng chọn ít nhất 2 người");
-                    return
-                }
+                }            
 
                 $.post(this.action, formData, function (response) {
                      $('#CreateNewGroup').modal('hide');

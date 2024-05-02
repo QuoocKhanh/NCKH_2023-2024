@@ -276,3 +276,4 @@ D:\Năm_4\NCKH\NCKH(2023-2024)\NCKH\bin\Debug\net7.0\Microsoft.AspNetCore.DataPr
 D:\Năm_4\NCKH\NCKH(2023-2024)\NCKH\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Năm_4\NCKH\NCKH(2023-2024)\NCKH\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
 D:\Năm_4\NCKH\NCKH(2023-2024)\NCKH\bin\Debug\net7.0\System.Security.Cryptography.Xml.dll
+D:\Năm_4\NCKH\NCKH(2023-2024)\NCKH\obj\Debug\net7.0\NCKH.sourcelink.json

@@ -17,6 +17,11 @@
         List<ItemAdvisor> ad = db.Advisors.Where(item => item.Advisor_ID == Advisorid).ToList();
         return ad;
     }
+    public int getnumberstu(int idclass)
+    {
+        var count = db.Students.Where(s => s.Class_ID == idclass).Count();
+        return count;
+    }
 }
 
 <div class="col-lg-12 grid-margin stretch-card">
@@ -36,7 +41,8 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
+
+            <div class="table-responsive" style="padding-top:20px">
                 <table class="table table-light">
                     <thead>
                         <tr>
@@ -51,23 +57,27 @@
 
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td> @item.Class_ID </td>
-                                <td> @item.ClassName </td>
-                                <td> @item.NumberStudent </td>
-                                @{
-                                    List<ItemAdvisor> name = AdvisorName(item.Advisor_ID);
-                                }
-                                @foreach (ItemAdvisor ad in name)
-                                {
-                                    <td> @ad.AdvisorName</td>
-                                }
-                                <td>
-                                    <a class="btn btn-success btn-fw" href="/Admin/Class/Detail/@item.Class_ID">Detail</a>
-                                    <a class="btn btn-warning btn-fw" href="/Admin/Class/Update/@item.Class_ID">Edit</a>
-                                    <a class="btn btn-danger btn-fw" href="/Admin/Class/Delete/@item.Class_ID" onclick="return window.confirm('Are you sure?');">Delete</a>
-                                </td>
-                            </tr>
+                            {
+                                var count_stu = getnumberstu(item.Class_ID);
+
+                                <tr>
+                                    <td> @item.Class_ID </td>
+                                    <td> @item.ClassName </td>
+                                    <td>@count_stu  </td>
+                                    @{
+                                        List<ItemAdvisor> name = AdvisorName(item.Advisor_ID);
+                                    }
+                                    @foreach (ItemAdvisor ad in name)
+                                    {
+                                        <td> @ad.AdvisorName</td>
+                                    }
+                                    <td>
+                                        <a class="btn btn-success btn-fw" href="/Admin/Class/Detail/@item.Class_ID">Detail</a>
+                                        <a class="btn btn-warning btn-fw" href="/Admin/Class/Update/@item.Class_ID">Edit</a>
+                                        <a class="btn btn-danger btn-fw" href="/Admin/Class/Delete/@item.Class_ID" onclick="return window.confirm('Are you sure?');">Delete</a>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

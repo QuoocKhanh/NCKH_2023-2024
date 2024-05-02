@@ -22,7 +22,8 @@
                 </div>
                 
             </div>
-            <div class="table-responsive">
+
+            <div class="table-responsive" style="padding-top:20px">
                 <table class="table table-light">
                     <thead>
                         <tr>
@@ -43,6 +44,7 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    
                                     <td> @item.User_ID </td>
                                     <td> @item.UserName </td>
                                     <td> @item.Password </td>

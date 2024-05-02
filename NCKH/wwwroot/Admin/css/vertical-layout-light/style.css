@@ -28380,11 +28380,11 @@ div.tagsinput span.tag a {
 }
 
 .content-wrapper {
-  background: #F4F5F7;
-  padding: 1.5rem 2.187rem 1.5rem 3.5rem;
-  width: 100%;
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
+    background-image: url('~/wwwroot/Admin/images/logo-dai-hoc-giao-thong-van-tai-inkythuatso-01-23-16-23-19.png');
+    padding: 1.5rem 2.187rem 1.5rem 3.5rem;
+    width: 100%;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
 }
 
 @media (max-width: 767px) {

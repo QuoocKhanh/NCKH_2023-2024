@@ -6,6 +6,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -57,11 +58,25 @@ namespace GroupChat.Controllers
         public async Task<IActionResult> CreateGroup(string[] checkedUsers, string GroupName)
         {
 
+            string id = HttpContext.Session.GetString("user_id");
+            int id_ = Convert.ToInt32(id);
+
             var group = new ItemGroupChat();
             group.Name = GroupName;
             db.itemGroupChats.Add(group);
             db.SaveChanges();  // Save changes to get the auto-generated Group ID
 
+            ItemAllUser user = db.AllUsers.Where(n=>n.User_ID == id_).FirstOrDefault();
+
+            if(user.Type == 1)
+            {
+                ItemUserGroup itemUserGroup = new ItemUserGroup();
+                itemUserGroup.ID_UserChat = id_;
+                itemUserGroup.ID_GroupChat = group.ID;    
+                db.Add(itemUserGroup);
+            }
+
+            
             foreach (var userId in checkedUsers)
             {
                 var userGroup = new ItemUserGroup();
@@ -70,16 +85,39 @@ namespace GroupChat.Controllers
 
                 db.itemUserGroups.Add(userGroup);
             }
+            
+                     
 
             db.SaveChanges(); // Save all user group associations
 
+            if(user.Type ==1)
+            {
+                /*List<string> checkedUsersList = checkedUsers.ToList();
+                checkedUsersList.Add(id);
+                checkedUsers = checkedUsersList.ToArray();*/
+
+                checkedUsers = AddToArray(checkedUsers,id);
+            }    
             // singalR sendAll
             await _hubContext.Clients.All.SendAsync("ReceiveMessage", group.ID, "AddUser", null, checkedUsers);
 
 
             return Ok(group.ID);
         }
+        static string[] AddToArray(string[] array, string element)
+        {
+            // Create a new array with a length increased by 1
+            string[] newArray = new string[array.Length + 1];
 
+            // Copy the elements from the original array to the new array
+            Array.Copy(array, newArray, array.Length);
+
+            // Add the new element at the end of the new array
+            newArray[array.Length] = element;
+
+            // Return the new array
+            return newArray;
+        }
         public ActionResult LoadGroupChat()
         {
             string id = HttpContext.Session.GetString("user_id");

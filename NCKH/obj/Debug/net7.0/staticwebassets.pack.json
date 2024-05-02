@@ -345,6 +345,10 @@
       "PackagePath": "staticwebassets\\Admin\\gulpfile.js"
     },
     {
+      "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\Admin\\images\\OIP.png",
+      "PackagePath": "staticwebassets\\Admin\\images\\OIP.png"
+    },
+    {
       "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\Admin\\images\\auth\\lockscreen-bg.jpg",
       "PackagePath": "staticwebassets\\Admin\\images\\auth\\lockscreen-bg.jpg"
     },
@@ -655,6 +659,10 @@
     {
       "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\Admin\\images\\lightbox\\thumb-v-y-2.jpg",
       "PackagePath": "staticwebassets\\Admin\\images\\lightbox\\thumb-v-y-2.jpg"
+    },
+    {
+      "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\Admin\\images\\logo-dai-hoc-giao-thong-van-tai-inkythuatso-01-23-16-23-19.png",
+      "PackagePath": "staticwebassets\\Admin\\images\\logo-dai-hoc-giao-thong-van-tai-inkythuatso-01-23-16-23-19.png"
     },
     {
       "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\Admin\\images\\logo-light.svg",
@@ -6955,6 +6963,18 @@
     {
       "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\Admin\\vendors\\x-editable\\bootstrap-editable.min.js",
       "PackagePath": "staticwebassets\\Admin\\vendors\\x-editable\\bootstrap-editable.min.js"
+    },
+    {
+      "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\ImageUpload\\09af5861-5633-4914-b129-8d748bbc34c2_OIP.png",
+      "PackagePath": "staticwebassets\\ImageUpload\\09af5861-5633-4914-b129-8d748bbc34c2_OIP.png"
+    },
+    {
+      "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\ImageUpload\\16055679-3f26-4164-837f-e7a2c2175b85_pho-ha-noi-1 (1).jpg",
+      "PackagePath": "staticwebassets\\ImageUpload\\16055679-3f26-4164-837f-e7a2c2175b85_pho-ha-noi-1 (1).jpg"
+    },
+    {
+      "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\ImageUpload\\3c6d7ab5-f9d9-481b-8306-77842b40286a_OIP.png",
+      "PackagePath": "staticwebassets\\ImageUpload\\3c6d7ab5-f9d9-481b-8306-77842b40286a_OIP.png"
     },
     {
       "Id": "D:\\Năm_4\\NCKH\\NCKH(2023-2024)\\NCKH\\wwwroot\\ImgChat\\chat.png",
