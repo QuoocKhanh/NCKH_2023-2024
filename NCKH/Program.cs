@@ -30,7 +30,14 @@ var app = builder.Build();
 
 using (var context = new MyDbContext())
 {
-    context.Database.Migrate();
+    try
+    {
+        context.Database.Migrate();
+    }
+    catch
+    {
+        //
+    }
 }
 
 app.UseSession();
