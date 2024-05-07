@@ -1,0 +1,17 @@
+﻿services:
+  nckh:
+    image: nckh
+    container_name: nckh_exe
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+  sql:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: nckh_db
+    ports:
+      - "14330:1433"
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Nckh0!Password

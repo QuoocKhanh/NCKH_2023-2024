@@ -19,7 +19,26 @@ namespace NCKH.Models
             //ket noi vs csdl thong qua chuoi ket noui
             optionsBuilder.UseSqlServer(strDbConnectString);
         }
-		/*public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }*/
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ItemAllUser>()
+                .HasData(new ItemAllUser
+                {
+                    User_ID = 1,
+                    UserName = "Admin",
+                    Password = "admin",
+                    Gender = "male",
+                    Dob = new DateTime(2000, 1, 1),
+                    Phone = "0123456789",
+                    Email = "admin@utc.com",
+                    Type = 0
+                });
+        }
+
+        /*public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }*/
 		public DbSet<ItemAdvisor> Advisors { get; set; }
         public DbSet<ItemAllUser> AllUsers { get; set; }
         public DbSet<ItemBonus> Bonus { get; set; }
