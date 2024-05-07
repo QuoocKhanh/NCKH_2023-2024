@@ -18,15 +18,21 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();
 
 /*builder.Services.AddDataProtection()
-	.PersistKeysToDbContext<MyDbContext>();*/
+    .PersistKeysToDbContext<MyDbContext>();*/
 
 /*builder.Services.ConfigureApplicationCookie(options =>
 {
-	options.Cookie.Name = "YourCookieName";
-	options.Cookie.SameSite = SameSiteMode.None;
-	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.Name = "YourCookieName";
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });*/
 var app = builder.Build();
+
+using (var context = new MyDbContext())
+{
+    context.Database.Migrate();
+}
+
 app.UseSession();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -43,7 +49,6 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-
 
 
 app.MapControllerRoute(name: "areas", pattern: "{area}/{controller=Home}/{action=Index}/{id?}");
@@ -72,7 +77,4 @@ public class ChatHub : Hub
     {
         await Clients.Group(groupName).SendAsync("ReceiveMessage", groupName, message, userID);
     }
-
 }
-
-
